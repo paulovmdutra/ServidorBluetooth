@@ -1,0 +1,154 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "UFrmPrincipal.h"
+
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TForm1 *Form1;
+
+using namespace std;
+
+/*
+   Processa os eventos do servidor
+*/
+class TEventSv : public TEventServerConn
+{
+	private:
+		TForm1 *form;
+
+	public:
+
+	   void  statusConnection(const char *message);
+	   void  setForm(TForm1 *form);
+
+};
+
+void TEventSv::statusConnection(const char *message)
+{
+	form->lstStatus->Items->Add(message);
+};
+
+void  TEventSv::setForm(TForm1 *form)
+{
+   this->form = form;
+}
+
+/*
+  Implementa a classe MessageEvent para processar
+  as mensagens enviadas pelo cliente.
+*/
+class TMessageHandleEvent : public MessageEvent
+{
+	private:
+		TForm1 *form;
+
+	public:
+		void  receiveMessage(const char *message);
+		void  setForm(TForm1 *form);
+};
+
+void  TMessageHandleEvent::receiveMessage(const char *message)
+{
+	form->lstStatus->Items->Add(message);
+}
+
+void  TMessageHandleEvent::setForm(TForm1 *form)
+{
+   this->form = form;
+}
+
+
+//---------------------------------------------------------------------------
+__fastcall TForm1::TForm1(TComponent* Owner)
+	: TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::btnIniciarClick(TObject *Sender)
+{
+
+	if ( (this->bluetoothServer == NULL) || (!this->bluetoothServer->isConnected()) ) {
+
+		LONG      ulRetCode = 0;
+		WSADATA    WSAData = {0};
+		ULONGLONG  ululRemoteBthAddr = 0;
+
+		TEventSv *event = new TEventSv();
+		event->setForm(this);
+
+		TMessageHandleEvent *msgEvent = new TMessageHandleEvent();
+		msgEvent->setForm(this);
+
+		this->thread = new ThreadServerConn(true);
+		this->thread->setEvent(event);
+		this->thread->setMessageEvent(msgEvent);
+
+		this->bluetoothServer = thread->getBluetoothServer();
+
+		thread->Start();
+
+		if (this->bluetoothServer->isConnected())
+		{
+			btnIniciar->Enabled = false;
+			btnPararServer->Enabled = true;
+		}
+
+	}
+
+}
+//---------------------------------------------------------------------------
+
+
+
+void __fastcall TForm1::FormClose(TObject *Sender, TCloseAction &Action)
+{
+  this->Hide();
+  Action = caNone;
+}
+//---------------------------------------------------------------------------
+
+
+
+void __fastcall TForm1::mnuIniciarServidorClick(TObject *Sender)
+{
+	this->btnIniciar->Click();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::mnuPararServidorClick(TObject *Sender)
+{
+	this->btnPararServer->Click();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::trayIconDblClick(TObject *Sender)
+{
+	this->Show();
+}
+//---------------------------------------------------------------------------
+
+
+
+
+void __fastcall TForm1::btnPararServerClick(TObject *Sender)
+{
+
+	if ( (this->bluetoothServer != NULL) || (!this->bluetoothServer->isConnected()) ) {
+
+		this->bluetoothServer->closeConnection();
+
+		if (this->bluetoothServer->isConnected())
+		{
+			btnIniciar->Enabled = true;
+			btnPararServer->Enabled = false;
+		}
+
+	}
+
+}
+//---------------------------------------------------------------------------
+

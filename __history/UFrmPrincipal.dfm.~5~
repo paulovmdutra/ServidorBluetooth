@@ -1,0 +1,47 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Servidor Bluetooth'
+  ClientHeight = 357
+  ClientWidth = 429
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object btnPararServer: TButton
+    Left = 223
+    Top = 57
+    Width = 178
+    Height = 25
+    Caption = 'Parar servidor'
+    TabOrder = 0
+    OnClick = btnPararServerClick
+  end
+  object lstStatus: TListBox
+    Left = 8
+    Top = 88
+    Width = 413
+    Height = 261
+    ItemHeight = 13
+    TabOrder = 1
+  end
+  object btnIniciar: TButton
+    Left = 24
+    Top = 57
+    Width = 177
+    Height = 25
+    Caption = 'Iniciar Servidor'
+    TabOrder = 2
+    OnClick = btnIniciarClick
+  end
+  object trayIcon: TTrayIcon
+    BalloonHint = 'Server Bluetooth'
+    Left = 328
+    Top = 104
+  end
+end

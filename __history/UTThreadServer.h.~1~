@@ -1,0 +1,17 @@
+//---------------------------------------------------------------------------
+
+#ifndef UTThreadServerH
+#define UTThreadServerH
+//---------------------------------------------------------------------------
+#include <Classes.hpp>
+//---------------------------------------------------------------------------
+class TThreadServer : public TThread
+{
+private:
+protected:
+	void __fastcall Execute();
+public:
+	__fastcall TThreadServer(bool CreateSuspended);
+};
+//---------------------------------------------------------------------------
+#endif

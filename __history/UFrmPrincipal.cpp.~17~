@@ -1,0 +1,207 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "UFrmPrincipal.h"
+
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TForm1 *Form1;
+
+using namespace std;
+
+/*
+   Processa os eventos do servidor
+*/
+class TEventSv : public TEventServerConn
+{
+	private:
+		TForm1 *form;
+
+	public:
+
+	   void  messageConnection(const char *message);
+	   void  connected();
+	   void  disconnected();
+	   void  setForm(TForm1 *form);
+
+};
+
+void TEventSv::messageConnection(const char *message)
+{
+
+};
+
+void TEventSv::connected()
+{
+
+	if (this->form->bluetoothServer->isConnected())
+	{
+		this->form->btnIniciar->Enabled = false;
+		this->form->btnPararServer->Enabled = true;
+		form->lstStatus->Items->Add("Servidor Bluetooth conectado.");
+
+	}
+
+};
+
+void TEventSv::disconnected()
+{
+	form->lstStatus->Items->Add("Servidor Bluetooth desconectado.");
+};
+
+void  TEventSv::setForm(TForm1 *form)
+{
+   this->form = form;
+}
+
+/*
+  Implementa a classe MessageEvent para processar
+  as mensagens enviadas pelo cliente.
+*/
+class TMessageHandleEvent : public MessageEvent
+{
+	private:
+		TForm1 *form;
+
+	public:
+		void  receiveMessage(const char *message);
+		void  setForm(TForm1 *form);
+};
+
+void  TMessageHandleEvent::receiveMessage(const char *message)
+{
+	const char *UP = "UP";
+	const char *DOWN = "DOWN";
+	const char *LEFT = "LEFT";
+	const char *RIGHT = "RIGHT";
+
+	if (message == UP) {
+		keybd_event( VK_UP, 0x45, KEYEVENTF_EXTENDEDKEY | 0,  0 );
+	}
+	else
+		if (message == DOWN) {
+			keybd_event( VK_DOWN, 0x45, KEYEVENTF_EXTENDEDKEY | 0,  0 );
+		}
+		else
+			if (message == LEFT) {
+				keybd_event( VK_LEFT, 0x45, KEYEVENTF_EXTENDEDKEY | 0,  0 );
+			}
+			else
+				if (message == RIGTH) {
+					keybd_event( VK_RIGHT, 0x45, KEYEVENTF_EXTENDEDKEY | 0,  0 );
+				}
+
+	form->lstStatus->Items->Add(message);
+}
+
+void  TMessageHandleEvent::setForm(TForm1 *form)
+{
+   this->form = form;
+}
+
+
+//---------------------------------------------------------------------------
+__fastcall TForm1::TForm1(TComponent* Owner)
+	: TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::btnIniciarClick(TObject *Sender)
+{
+
+	if ( (this->bluetoothServer == NULL) || (!this->bluetoothServer->isConnected()) ) {
+
+		LONG      ulRetCode = 0;
+		WSADATA    WSAData = {0};
+		ULONGLONG  ululRemoteBthAddr = 0;
+
+		TEventSv *event = new TEventSv();
+		event->setForm(this);
+
+		TMessageHandleEvent *msgEvent = new TMessageHandleEvent();
+		msgEvent->setForm(this);
+
+		this->thread = new ThreadServerConn(true);
+		this->thread->setEvent(event);
+		this->thread->setMessageEvent(msgEvent);
+
+		this->bluetoothServer = thread->getBluetoothServer();
+
+		thread->Start();
+
+	}
+
+}
+//---------------------------------------------------------------------------
+
+
+
+void __fastcall TForm1::FormClose(TObject *Sender, TCloseAction &Action)
+{
+  this->Hide();
+  Action = caNone;
+}
+//---------------------------------------------------------------------------
+
+
+
+void __fastcall TForm1::mnuIniciarServidorClick(TObject *Sender)
+{
+	this->btnIniciar->Click();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::mnuPararServidorClick(TObject *Sender)
+{
+	this->btnPararServer->Click();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::trayIconDblClick(TObject *Sender)
+{
+	this->Show();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::btnPararServerClick(TObject *Sender)
+{
+
+	if ( (this->bluetoothServer != NULL) && (this->bluetoothServer->isConnected()) ) {
+
+		this->bluetoothServer->closeConnection();
+
+		if (!this->bluetoothServer->isConnected())
+		{
+			btnIniciar->Enabled = true;
+			btnPararServer->Enabled = false;
+		}
+
+	}
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::btnLimparLogClick(TObject *Sender)
+{
+	lstStatus->Items->Clear();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::mnuSairClick(TObject *Sender)
+{
+	btnPararServer->Click();
+	Application->Terminate();
+
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::mnuMainSairClick(TObject *Sender)
+{
+	 mnuSair->Click();
+}
+//---------------------------------------------------------------------------
+
+

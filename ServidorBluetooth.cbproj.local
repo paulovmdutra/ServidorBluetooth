@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2011/02/14 17:22:59.880.cpp,C:\Users\Paulo\Documents\RAD Studio\Projects\Unit1.cpp=D:\Bluetooth\Delphi\Servidor Bluetooth - Cpp\UFrmPrincipal.cpp</Transaction>
+    <Transaction>2011/02/14 17:22:59.880.h,C:\Users\Paulo\Documents\RAD Studio\Projects\Unit1.h=D:\Bluetooth\Delphi\Servidor Bluetooth - Cpp\UFrmPrincipal.h</Transaction>
+    <Transaction>2011/02/14 17:22:59.880.dfm,C:\Users\Paulo\Documents\RAD Studio\Projects\Unit1.dfm=D:\Bluetooth\Delphi\Servidor Bluetooth - Cpp\UFrmPrincipal.dfm</Transaction>
+    <Transaction>2011/02/14 17:23:18.093.cbproj,C:\Users\Paulo\Documents\RAD Studio\Projects\Project1.cbproj=D:\Bluetooth\Delphi\Servidor Bluetooth - Cpp\ServidorBluetooth.cbproj</Transaction>
+    <Transaction>2011/02/14 17:24:38.842.cpp,D:\Bluetooth\Delphi\Servidor Bluetooth - Cpp\Unit1.cpp=D:\Bluetooth\Delphi\Servidor Bluetooth - Cpp\USdtfx.cpp</Transaction>
+    <Transaction>2011/02/14 17:24:38.842.h,D:\Bluetooth\Delphi\Servidor Bluetooth - Cpp\Unit1.h=D:\Bluetooth\Delphi\Servidor Bluetooth - Cpp\USdtfx.h</Transaction>
+    <Transaction>2011/02/14 17:33:02.979.cpp,D:\Bluetooth\Delphi\Servidor Bluetooth - Cpp\Unit1.cpp=D:\Bluetooth\Delphi\Servidor Bluetooth - Cpp\UBTService.cpp</Transaction>
+    <Transaction>2011/02/14 17:33:02.979.h,D:\Bluetooth\Delphi\Servidor Bluetooth - Cpp\Unit1.h=D:\Bluetooth\Delphi\Servidor Bluetooth - Cpp\UBTService.h</Transaction>
+    <Transaction>2011/02/14 17:51:48.511.cpp,D:\Bluetooth\Delphi\Servidor Bluetooth - Cpp\Unit1.cpp=D:\Bluetooth\Delphi\Servidor Bluetooth - Cpp\UTThreadServer.cpp</Transaction>
+    <Transaction>2011/02/14 17:51:48.511.h,D:\Bluetooth\Delphi\Servidor Bluetooth - Cpp\Unit1.h=D:\Bluetooth\Delphi\Servidor Bluetooth - Cpp\UTThreadServer.h</Transaction>
+    <Transaction>2011/02/15 09:40:13.113.cpp,D:\Bluetooth\Delphi\Servidor Bluetooth - Cpp\Unit1.cpp=D:\Bluetooth\Delphi\Servidor Bluetooth - Cpp\UThreadServerConn.cpp</Transaction>
+    <Transaction>2011/02/15 09:40:13.113.h,D:\Bluetooth\Delphi\Servidor Bluetooth - Cpp\Unit1.h=D:\Bluetooth\Delphi\Servidor Bluetooth - Cpp\UThreadServerConn.h</Transaction>
+  </Transactions>
+</BorlandProject>

@@ -1,0 +1,20 @@
+//---------------------------------------------------------------------------
+
+#ifndef UThreadServerConnH
+#define UThreadServerConnH
+//---------------------------------------------------------------------------
+#include <Classes.hpp>
+#include "UBTService.h"
+
+//---------------------------------------------------------------------------
+class ThreadServerConn : public TThread
+{
+private:
+	void __fastcall startServer();
+protected:
+	void __fastcall Execute();
+public:
+	__fastcall ThreadServerConn(bool CreateSuspended);
+};
+//---------------------------------------------------------------------------
+#endif

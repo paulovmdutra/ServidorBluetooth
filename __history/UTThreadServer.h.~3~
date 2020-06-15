@@ -1,0 +1,26 @@
+//---------------------------------------------------------------------------
+
+#ifndef UTThreadServerH
+#define UTThreadServerH
+//---------------------------------------------------------------------------
+#include <Classes.hpp>
+
+#include "UBTService.h"
+#include "USdtfx.h"
+
+//---------------------------------------------------------------------------
+class TThreadServer : public TThread
+{
+private:
+
+	Socket socket;
+
+protected:
+	void __fastcall Execute();
+
+public:
+	__fastcall TThreadServer(bool CreateSuspended);
+	void __fastcall setSocketClient(Socket socket);
+};
+//---------------------------------------------------------------------------
+#endif

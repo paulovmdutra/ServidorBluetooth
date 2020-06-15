@@ -1,0 +1,70 @@
+//---------------------------------------------------------------------------
+
+#ifndef UBTServiceH
+#define UBTServiceH
+
+#include "USdtfx.h"
+#include <Classes.hpp>
+#include <Controls.hpp>
+#include <StdCtrls.hpp>
+#include <Forms.hpp>
+#include <vcl.h>
+
+
+
+
+#define SIO_RCVALL _WSAIOW(IOC_VENDOR,1)
+
+// {B62C4E8D-62CC-404b-BBBF-BF3E3BBB1374}
+DEFINE_GUID(g_guidServiceClass, 0xb62c4e8d, 0x62cc, 0x404b, 0xbb, 0xbf, 0xbf, 0x3e, 0x3b, 0xbb, 0x13, 0x74);
+
+
+class TEventServerConn
+{
+	public :
+	   virtual void __fastcall statusConnection(LPTSTR message);
+};
+
+BOOL BT_SetService();
+int startService(TEventServerConn *event);
+int listenConn();
+int str2uuid( const char *uuid_str, GUID *uuid );
+int build_uuid(GUID *uuid, char *service);
+void closeConnection();
+
+int CALLBACK ConditionAcceptFunc(
+	LPWSABUF lpCallerId,
+	LPWSABUF lpCallerData,
+	LPQOS pQos,
+	LPQOS lpGQOS,
+	LPWSABUF lpCalleeId,
+	LPWSABUF lpCalleeData,
+	GROUP FAR * g,
+	DWORD_PTR dwCallbackData
+	);
+
+//------------------------------------------------------------------------
+// Function: BT_SetService
+// Purpose: Registers a new SDP record
+//------------------------------------------------------------------------
+#define SDP_RECORD_SIZE   0x0000004f
+#define SDP_CHANNEL_OFFSET 32
+
+#define CXN_BDADDR_STR_LEN                17   // 6 two-digit hex values plus 5 colons
+#define CXN_TRANSFER_DATA_LENGTH          100   // length of the data to be transferred
+#define CXN_MAX_INQUIRY_RETRY             3
+#define CXN_DELAY_NEXT_INQUIRY            15
+#define DATA_BUFSIZE					  4096
+// This just redundant!!!!
+
+int  g_ulMaxCxnCycles = 1, g_iOutputLevel = 0;
+
+struct
+{
+	BTHNS_SETBLOB   b;
+	unsigned char   uca[SDP_RECORD_SIZE];
+} bigBlob;
+
+
+//---------------------------------------------------------------------------
+#endif

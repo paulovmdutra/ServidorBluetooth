@@ -1,0 +1,17 @@
+//---------------------------------------------------------------------------
+
+#ifndef UThreadServerConnH
+#define UThreadServerConnH
+//---------------------------------------------------------------------------
+#include <Classes.hpp>
+//---------------------------------------------------------------------------
+class ThreadServerConn : public TThread
+{
+private:
+protected:
+	void __fastcall Execute();
+public:
+	__fastcall ThreadServerConn(bool CreateSuspended);
+};
+//---------------------------------------------------------------------------
+#endif
